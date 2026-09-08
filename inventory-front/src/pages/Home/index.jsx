@@ -7,6 +7,7 @@ import api from '../../services/api'
 
 function Home() {
   const[products,setProducts] = useState([])
+  const[showForm,setShowForm] = useState(false)
   async function getProducts() {
     const productsFromAPI = await api.get('/api/products')
     setProducts(productsFromAPI.data)
@@ -18,24 +19,45 @@ function Home() {
   },[])
   
   return (
+    
     <div className='container'>
-      <form>
-        <h1>Register Product</h1>
-        <input placeholder="description" name='description' type="text" />
-        <input placeholder="quantity" type="number" name="quantity" />
-        <button type='button'>Register product</button>
-      </form>
-      {products.map(product => (
-        <div key={product.id} className='card'>
-          <div>
-            <p>Id: <span>{product.id}</span></p>
-            <p>Description: <span>{product.description}</span> </p>
-            <p>Quantity: <span>{product.quantity}</span> </p>
-          </div>
-          <button><img src="{Trash}" /></button>
-        </div>
-      ))}
+      <button type='button'
+      className='form-button' onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Close':'Add product'}
+      </button>
+      {showForm &&(
+        <form >
+          <h1>Register a new product</h1>
+          <input placeholder="description" name='description' type="text" />
+          <input placeholder="quantity" type="number" name="quantity" />
+          <button type='button'>Register product</button>
+        </form>
+      )}
+      <table className='excel-table'>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Deletar</th> {}
+        </tr>
+      </thead>
+      <tbody>
+        {products.map(product => (
+          <tr key={product.id}>
+            <td>{product.id}</td>
+            <td>{product.description}</td>
+            <td>{product.quantity}</td>
+            <td>
 
+              <button className='delete-btn'>
+                <img src={Trash} alt="Delete" />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
     </div>
   )
 }
