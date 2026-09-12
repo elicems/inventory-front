@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react'
+import { useEffect,useState,useRef } from 'react'
 import './style.css'
 import Trash from '../../assets/Trash.svg'
 import api from '../../services/api'
@@ -8,12 +8,25 @@ import api from '../../services/api'
 function Home() {
   const[products,setProducts] = useState([])
   const[showForm,setShowForm] = useState(false)
+  const inputDescription = useRef()
+  const inputQuantity = useRef()
   async function getProducts() {
     const productsFromAPI = await api.get('/api/products')
     setProducts(productsFromAPI.data)
     console.log(products)
   }
-
+  async function createProducts() {
+    await api.post('/api/products',{
+      description:inputDescription.current.value,
+      quantity:inputQuantity.current.value
+    })
+    getProducts()
+  }
+  async function deleteProduct(id) {
+    await api.delete(`/api/products/${id}`)
+    getProducts()
+  }
+  
   useEffect(() => {
     getProducts()
   },[])
@@ -28,9 +41,9 @@ function Home() {
       {showForm &&(
         <form >
           <h1>Register a new product</h1>
-          <input placeholder="description" name='description' type="text" />
-          <input placeholder="quantity" type="number" name="quantity" />
-          <button type='button'>Register product</button>
+          <input placeholder="description" name='description' type="text" ref={inputDescription} />
+          <input placeholder="quantity" type="number" name="quantity" ref={inputQuantity}/> 
+          <button type='button' onClick={createProducts}>Register product</button>
         </form>
       )}
       <table className='excel-table'>
@@ -39,7 +52,8 @@ function Home() {
           <th>Id</th>
           <th>Description</th>
           <th>Quantity</th>
-          <th>Deletar</th> {}
+          <th>Delete</th>{}
+          <th>Update</th>
         </tr>
       </thead>
       <tbody>
@@ -49,8 +63,7 @@ function Home() {
             <td>{product.description}</td>
             <td>{product.quantity}</td>
             <td>
-
-              <button className='delete-btn'>
+              <button className='delete-btn' onClick={() => deleteProduct(product.id)}>
                 <img src={Trash} alt="Delete" />
               </button>
             </td>
