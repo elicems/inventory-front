@@ -41,8 +41,6 @@ function Home() {
     getProducts()
     setIsModalOpen(false)
     setEditingProduct(null)
-    setDescription('')
-    setQuantity('')
   }
   function openEditModal(product){
     setEditingProduct(product)
@@ -53,8 +51,6 @@ function Home() {
   function cancelEdit(){
     setIsModalOpen(false)
     setEditingProduct(null)
-    setDescription('')
-    setQuantity('')
   }
   
   useEffect(() => {
@@ -104,6 +100,7 @@ function Home() {
             </td>
           </tr>
         ))}
+        
       </tbody>
     </table>
     {isModalOpen && editingProduct && (
@@ -116,7 +113,7 @@ function Home() {
           <input type="number" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
           <div className='modal-actions'>
             <button type='button' onClick={cancelEdit}>Cancelar</button>
-            <button type='button' onClick={updateProduct}>Atualizar</button>
+            <button type='button' onClick={() => updateProduct(editingProduct.id)}>Atualizar</button>
           </div>
         </div>
       </div>
