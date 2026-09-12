@@ -134,7 +134,8 @@ form{
 .modal-box {
   background: white;
   width: 420px;
-  padding: 24px;
+  padding: 15px;
+  padding-top: auto;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -150,10 +151,14 @@ form{
 .modal-overlay {
   position: fixed;
   inset: 0;
+  padding: auto;
   background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
+}
+.update-msg{
+  color: #000000;
 }
 

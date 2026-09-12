@@ -106,7 +106,7 @@ function Home() {
     {isModalOpen && editingProduct && (
       <div className='modal-overlay'>
         <div className='modal-box'>
-          <h1>Update Product</h1>
+          <h1 className="update-msg">Update Product</h1>
 
           <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
 
